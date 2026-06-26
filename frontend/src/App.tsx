@@ -34,8 +34,8 @@ function App() {
         const { user } = await login(uid, profile.displayName, profile.pictureUrl, referralCode)
         setIsCoach(user.is_coach)
         setReady(true)
-      } catch (e) {
-        setError('ไม่สามารถเชื่อมต่อได้ กรุณาลองใหม่')
+      } catch (e: any) {
+        setError(e?.message || JSON.stringify(e) || 'ไม่สามารถเชื่อมต่อได้ กรุณาลองใหม่')
         console.error(e)
       }
     }
