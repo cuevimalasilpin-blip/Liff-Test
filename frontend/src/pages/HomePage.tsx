@@ -4,6 +4,17 @@ import { getMe, getMyCourses, getMyBookings } from '../lib/api'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
 
+const UnderparLogo = () => (
+  <svg width="110" height="30" viewBox="0 0 260 80" xmlns="http://www.w3.org/2000/svg">
+    <line x1="148" y1="8" x2="148" y2="52" stroke="#ED1C24" strokeWidth="5" strokeLinecap="round"/>
+    <polygon points="148,8 148,30 172,19" fill="#ED1C24"/>
+    <ellipse cx="148" cy="53" rx="8" ry="4" fill="#ED1C24" opacity="0.4"/>
+    <text x="0" y="50" fontFamily="Archivo,sans-serif" fontWeight="800" fontSize="30" letterSpacing="2" fill="#141414">UNDER</text>
+    <text x="160" y="50" fontFamily="Archivo,sans-serif" fontWeight="800" fontSize="30" letterSpacing="2" fill="#141414">AR</text>
+    <text x="72" y="72" fontFamily="Archivo,sans-serif" fontWeight="500" fontSize="22" letterSpacing="4" fill="#141414">Club</text>
+  </svg>
+)
+
 const TIER_COLORS: Record<string, { bg: string; color: string }> = {
   bronze: { bg: '#f5ede4', color: '#9c6e3c' },
   silver: { bg: '#f0f0f0', color: '#6b6b6b' },
@@ -75,16 +86,9 @@ export default function HomePage() {
     <div style={{ background: '#f7f6f4', minHeight: '100vh', paddingBottom: 90 }}>
 
       {/* ── Header ── */}
-      <div style={{ background: '#fff', padding: '16px 20px 14px', borderBottom: '1px solid #efefef' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div>
-            <p style={{ fontFamily: 'Archivo,sans-serif', fontSize: 10, fontWeight: 700, letterSpacing: 2.5, textTransform: 'uppercase', color: '#ED1C24', marginBottom: 3 }}>
-              UNDERPAR CLUB
-            </p>
-            <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 22, letterSpacing: -0.5, color: '#141414', lineHeight: 1.1 }}>
-              สวัสดี, {user?.display_name?.split(' ')[0] || '—'}
-            </h1>
-          </div>
+      <div style={{ background: '#fff', padding: '12px 18px 14px', borderBottom: '1px solid #e8e6e3' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+          <UnderparLogo />
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             {user && (
               <span style={{
@@ -97,13 +101,16 @@ export default function HomePage() {
               </span>
             )}
             {user?.picture_url
-              ? <img src={user.picture_url} alt="avatar" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
-              : <div style={{ width: 44, height: 44, borderRadius: '50%', background: '#141414', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', fontWeight: 800, fontSize: 16, color: '#fff' }}>
+              ? <img src={user.picture_url} alt="avatar" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
+              : <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#141414', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', fontWeight: 800, fontSize: 16, color: '#fff' }}>
                   {user?.display_name?.[0] || '?'}
                 </div>
             }
           </div>
         </div>
+        <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 20, letterSpacing: -0.5, color: '#141414', lineHeight: 1.1, margin: 0 }}>
+          สวัสดี, {user?.display_name?.split(' ')[0] || '—'}
+        </h1>
       </div>
 
       <div style={{ padding: '16px 16px 0' }}>

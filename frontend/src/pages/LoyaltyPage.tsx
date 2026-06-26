@@ -1,6 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { getLoyaltySummary, getAllAchievements } from '../lib/api'
+import PageHeader from '../components/PageHeader'
+
+const IconStar = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+  </svg>
+)
 
 const TIER_CONFIG: Record<string, { label: string; color: string; bg: string; next: string; hours: number }> = {
   bronze: { label: 'Bronze', color: '#a0540a', bg: '#fdf3e7', next: 'Silver', hours: 20 },
@@ -21,17 +28,16 @@ export default function LoyaltyPage() {
   const locked       = achievements.filter((a: any) => !a.earned)
 
   return (
-    <div className="fade-in">
-      <div className="page-header">
-        <div>
-          <p className="section-label" style={{ fontSize: 11 }}>LOYALTY · รางวัล</p>
-          <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 20, letterSpacing: -0.5, marginTop: 4 }}>Points & Tier</h1>
-        </div>
-      </div>
+    <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
+      <PageHeader
+        icon={<IconStar />}
+        title="Loyalty & Points"
+        subtitle={`${points.toLocaleString()} pts สะสม`}
+      />
 
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: '12px 12px 0' }}>
         {/* Points Hero */}
-        <div style={{ background: '#141414', borderRadius: 20, padding: 24, marginBottom: 14, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ background: '#141414', borderRadius: 14, padding: 24, marginBottom: 10, position: 'relative', overflow: 'hidden' }}>
           <div style={{ position: 'absolute', top: -30, right: -30, width: 140, height: 140, borderRadius: '50%', background: 'rgba(237,28,36,0.12)' }} />
           <p style={{ fontSize: 11, fontFamily: 'Archivo,sans-serif', textTransform: 'uppercase', letterSpacing: 2, color: '#666', fontWeight: 600 }}>Points สะสม</p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 6 }}>
@@ -44,12 +50,12 @@ export default function LoyaltyPage() {
         </div>
 
         {/* Tier Status */}
-        <div className="card" style={{ padding: '18px 20px', border: '1px solid #f0eeec', marginBottom: 14 }}>
+        <div style={{ background: '#fff', borderRadius: 14, padding: '18px 20px', border: '1px solid #e8e6e3', marginBottom: 10 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
             <div>
               <p style={{ fontSize: 11, fontFamily: 'Archivo,sans-serif', textTransform: 'uppercase', letterSpacing: 2, color: '#888', fontWeight: 600 }}>ระดับปัจจุบัน</p>
               <p style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 26, letterSpacing: -0.5, marginTop: 4, color: tierCfg.color }}>
-                {tier === 'bronze' ? '🥉' : tier === 'silver' ? '🥈' : '🥇'} {tierCfg.label}
+                {tierCfg.label}
               </p>
             </div>
             {tp?.next && (
@@ -75,21 +81,21 @@ export default function LoyaltyPage() {
 
           {tier === 'gold' && (
             <div style={{ background: '#fefce8', borderRadius: 10, padding: '10px 14px', marginTop: 8 }}>
-              <p style={{ fontSize: 13, color: '#92400e', fontWeight: 600 }}>👑 คุณอยู่ที่ระดับสูงสุดแล้ว! ขอบคุณที่ไว้วางใจ Underpar Club</p>
+              <p style={{ fontSize: 13, color: '#92400e', fontWeight: 700, fontFamily: 'Archivo,sans-serif' }}>คุณอยู่ที่ระดับสูงสุดแล้ว! ขอบคุณที่ไว้วางใจ Underpar Club</p>
             </div>
           )}
         </div>
 
         {/* Tier Benefits */}
-        <div className="card" style={{ padding: '16px 18px', border: '1px solid #f0eeec', marginBottom: 14 }}>
+        <div style={{ background: '#fff', borderRadius: 14, padding: '16px 18px', border: '1px solid #e8e6e3', marginBottom: 10 }}>
           <p style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 13, textTransform: 'uppercase', letterSpacing: 1, color: '#ED1C24', marginBottom: 12 }}>สิทธิประโยชน์ Tier</p>
           {[
-            { tier: '🥉 Bronze', benefit: 'เริ่มต้น · สะสม 100 pts/ชม.' },
-            { tier: '🥈 Silver', benefit: 'ส่วนลด 5% + Priority Booking (20+ ชม.)' },
-            { tier: '🥇 Gold',   benefit: 'ส่วนลด 10% + VIP Slot + Free Analysis (50+ ชม.)' },
+            { tier: 'Bronze', benefit: 'เริ่มต้น · สะสม 100 pts/ชม.' },
+            { tier: 'Silver', benefit: 'ส่วนลด 5% + Priority Booking (20+ ชม.)' },
+            { tier: 'Gold',   benefit: 'ส่วนลด 10% + VIP Slot + Free Analysis (50+ ชม.)' },
           ].map((b, i) => (
-            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', paddingBottom: i < 2 ? 10 : 0, borderBottom: i < 2 ? '1px solid #f0eeec' : 'none', marginBottom: i < 2 ? 10 : 0 }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}></span>
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', paddingBottom: i < 2 ? 10 : 0, borderBottom: i < 2 ? '1px solid #f0eeeb' : 'none', marginBottom: i < 2 ? 10 : 0 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#ED1C24', flexShrink: 0, marginTop: 5 }} />
               <div>
                 <p style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 700, fontSize: 13 }}>{b.tier}</p>
                 <p style={{ fontSize: 13, color: '#555', marginTop: 2 }}>{b.benefit}</p>
@@ -99,7 +105,7 @@ export default function LoyaltyPage() {
         </div>
 
         {/* Referral CTA */}
-        <Link to="/referral" style={{ textDecoration: 'none', display: 'block', marginBottom: 14 }}>
+        <Link to="/referral" style={{ textDecoration: 'none', display: 'block', marginBottom: 10 }}>
           <div style={{ background: '#ED1C24', borderRadius: 16, padding: '16px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <p style={{ color: '#fff', fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 15 }}>แนะนำเพื่อน รับ 200 pts</p>

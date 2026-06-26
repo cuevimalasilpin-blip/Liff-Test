@@ -4,6 +4,14 @@ import { getMyProgress, getLatestStats } from '../lib/api'
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
+import PageHeader from '../components/PageHeader'
+
+const IconTrend = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+    <polyline points="16 7 22 7 22 13"/>
+  </svg>
+)
 
 const MONTHS_OPTIONS = [3, 6, 12]
 
@@ -23,18 +31,17 @@ export default function ProgressPage() {
   }))
 
   return (
-    <div className="fade-in">
-      <div className="page-header">
-        <div>
-          <p className="section-label" style={{ fontSize: 11 }}>PROGRESS · พัฒนาการ</p>
-          <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 20, letterSpacing: -0.5, marginTop: 4 }}>Swing Progress</h1>
-        </div>
-      </div>
+    <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
+      <PageHeader
+        icon={<IconTrend />}
+        title="Swing Progress"
+        subtitle="ติดตามพัฒนาการ"
+      />
 
-      <div style={{ padding: 16 }}>
+      <div style={{ padding: '12px 12px 0' }}>
         {/* Latest Stats */}
         {latest ? (
-          <div style={{ background: '#141414', borderRadius: 20, padding: 20, marginBottom: 16 }}>
+          <div style={{ background: '#141414', borderRadius: 14, padding: 20, marginBottom: 12 }}>
             <p style={{ fontSize: 11, fontFamily: 'Archivo,sans-serif', textTransform: 'uppercase', letterSpacing: 2, color: '#666', fontWeight: 600, marginBottom: 14 }}>Stats ล่าสุด</p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {latest.handicap !== null && <DarkStat label="Handicap" value={latest.handicap} unit="" />}
@@ -44,15 +51,17 @@ export default function ProgressPage() {
             </div>
           </div>
         ) : (
-          <div style={{ background: '#f7f6f4', borderRadius: 16, padding: 20, marginBottom: 16, textAlign: 'center', color: '#888' }}>
-            <p style={{ fontSize: 32, marginBottom: 8 }}>📊</p>
-            <p style={{ fontWeight: 600, color: '#141414' }}>ยังไม่มีข้อมูล Stats</p>
-            <p style={{ fontSize: 13, marginTop: 4 }}>โค้ชจะบันทึก stats หลังเรียนแต่ละครั้ง</p>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 24, marginBottom: 12, textAlign: 'center', border: '1px solid #e8e6e3' }}>
+            <div style={{ width: 48, height: 48, background: '#f0eeeb', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: '#ccc' }}>
+              <IconTrend />
+            </div>
+            <p style={{ fontWeight: 800, color: '#141414', fontFamily: 'Archivo,sans-serif', fontSize: 16 }}>ยังไม่มีข้อมูล Stats</p>
+            <p style={{ fontSize: 13, marginTop: 4, color: '#888' }}>โค้ชจะบันทึก stats หลังเรียนแต่ละครั้ง</p>
           </div>
         )}
 
         {/* Month Selector */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
           {MONTHS_OPTIONS.map(m => (
             <button key={m} onClick={() => setMonths(m)}
               style={{

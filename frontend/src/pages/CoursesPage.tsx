@@ -2,6 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { getMyCourses } from '../lib/api'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
+import PageHeader from '../components/PageHeader'
+
+const IconClock = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+  </svg>
+)
 
 export default function CoursesPage() {
   const { data, isLoading } = useQuery({ queryKey: ['courses'], queryFn: getMyCourses })
@@ -9,24 +16,27 @@ export default function CoursesPage() {
   const active  = courses.filter((c: any) => c.is_active)
   const expired = courses.filter((c: any) => !c.is_active)
 
-  return (
-    <div className="fade-in">
-      <div className="page-header">
-        <div>
-          <p className="section-label" style={{ fontSize: 11 }}>COURSES · คอร์สเรียน</p>
-          <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 20, letterSpacing: -0.5, marginTop: 4 }}>ชั่วโมงเรียน</h1>
-        </div>
-      </div>
+  const totalRemaining = active.reduce((s: number, c: any) => s + c.remaining_hours, 0)
 
-      <div style={{ padding: 16 }}>
+  return (
+    <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
+      <PageHeader
+        icon={<IconClock />}
+        title="Course Hours"
+        subtitle={`${totalRemaining.toFixed(1)} ชม. คงเหลือ`}
+      />
+
+      <div style={{ padding: '12px 12px 0' }}>
         {isLoading ? (
           <div style={{ textAlign: 'center', padding: 48 }}>
             <div style={{ width: 28, height: 28, border: '3px solid #ED1C24', borderTopColor: 'transparent', borderRadius: '50%', margin: '0 auto' }} className="animate-spin" />
           </div>
         ) : active.length === 0 ? (
-          <div style={{ background: '#f7f6f4', borderRadius: 16, padding: 32, textAlign: 'center', color: '#888' }}>
-            <p style={{ fontSize: 40, marginBottom: 12 }}>🎓</p>
-            <p style={{ fontWeight: 600, color: '#141414' }}>ยังไม่มี Course</p>
+          <div style={{ background: '#fff', borderRadius: 14, padding: 32, textAlign: 'center', color: '#888', border: '1px solid #e8e6e3' }}>
+            <div style={{ width: 48, height: 48, background: '#f0eeeb', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', color: '#ccc' }}>
+              <IconClock />
+            </div>
+            <p style={{ fontWeight: 800, color: '#141414', fontFamily: 'Archivo,sans-serif', fontSize: 16 }}>ยังไม่มี Course</p>
             <p style={{ fontSize: 13, marginTop: 6 }}>ติดต่อโค้ชเพื่อซื้อ package</p>
           </div>
         ) : (

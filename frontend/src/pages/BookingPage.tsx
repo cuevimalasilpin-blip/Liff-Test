@@ -3,6 +3,13 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getAvailableSlots, getMyCourses, createBooking } from '../lib/api'
 import { format, addDays } from 'date-fns'
 import { th } from 'date-fns/locale'
+import PageHeader from '../components/PageHeader'
+
+const IconCalendar = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+  </svg>
+)
 
 export default function BookingPage() {
   const qc = useQueryClient()
@@ -42,16 +49,14 @@ export default function BookingPage() {
   )
 
   return (
-    <div className="fade-in">
-      {/* Header */}
-      <div className="page-header">
-        <div>
-          <p className="section-label" style={{ fontSize: 11 }}>BOOKING · จองเรียน</p>
-          <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 800, fontSize: 20, letterSpacing: -0.5, marginTop: 4 }}>เลือกเวลาเรียน</h1>
-        </div>
-      </div>
+    <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
+      <PageHeader
+        icon={<IconCalendar />}
+        title="จองเวลาเรียน"
+        subtitle="เลือก time slot ที่ว่าง"
+      />
 
-      <div style={{ padding: '16px 16px 0' }}>
+      <div style={{ padding: '12px 12px 0' }}>
         {/* No active course warning */}
         {!activeCourse && (
           <div style={{ background: '#fff0f0', border: '1px solid #ffc9c9', borderRadius: 14, padding: '14px 16px', marginBottom: 16 }}>
@@ -161,6 +166,7 @@ export default function BookingPage() {
             {mutation.isError && <p style={{ color: '#c4171d', textAlign: 'center', fontSize: 13, marginTop: 8 }}>เกิดข้อผิดพลาด ลองใหม่อีกครั้ง</p>}
           </div>
         )}
+      </div>
       </div>
     </div>
   )
