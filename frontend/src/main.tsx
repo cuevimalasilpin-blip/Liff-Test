@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+// ensure React is in scope for JSX transform
 import App from './App.tsx'
 import './index.css'
 
