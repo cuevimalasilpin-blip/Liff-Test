@@ -52,7 +52,7 @@ export default function BookingPage() {
     <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
       <PageHeader
         icon={<IconCalendar />}
-        title="จองเวลาเรียน"
+        title="Booking"
         subtitle="เลือก time slot ที่ว่าง"
       />
 

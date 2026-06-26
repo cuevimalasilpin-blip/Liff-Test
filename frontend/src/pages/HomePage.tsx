@@ -85,30 +85,32 @@ export default function HomePage() {
   return (
     <div style={{ background: '#f7f6f4', minHeight: '100vh', paddingBottom: 90 }}>
 
-      {/* ── Header ── */}
-      <div style={{ background: '#fff', padding: '12px 18px 14px', borderBottom: '1px solid #e8e6e3' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-          <UnderparLogo />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      {/* ── Header (Design 001) ── */}
+      <div style={{ background: '#fff', padding: '10px 16px 12px', borderBottom: '1px solid #e8e6e3' }}>
+        {/* Row 1: avatar ซ้าย + logo ขวา */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {user?.picture_url
+              ? <img src={user.picture_url} alt="avatar" style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
+              : <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#141414', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', fontWeight: 800, fontSize: 14, color: '#fff' }}>
+                  {user?.display_name?.[0] || '?'}
+                </div>
+            }
             {user && (
               <span style={{
                 background: tierStyle.bg, color: tierStyle.color,
                 fontFamily: 'Archivo,sans-serif', fontSize: 10, fontWeight: 800,
                 letterSpacing: 1.5, textTransform: 'uppercase',
-                padding: '4px 10px', borderRadius: 20,
+                padding: '3px 8px', borderRadius: 20,
               }}>
                 {tier}
               </span>
             )}
-            {user?.picture_url
-              ? <img src={user.picture_url} alt="avatar" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '2px solid #f0f0f0' }} />
-              : <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#141414', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Archivo', fontWeight: 800, fontSize: 16, color: '#fff' }}>
-                  {user?.display_name?.[0] || '?'}
-                </div>
-            }
           </div>
+          <UnderparLogo />
         </div>
-        <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 20, letterSpacing: -0.5, color: '#141414', lineHeight: 1.1, margin: 0 }}>
+        {/* Row 2: greeting */}
+        <h1 style={{ fontFamily: 'Archivo,sans-serif', fontWeight: 900, fontSize: 19, letterSpacing: -0.4, color: '#141414', lineHeight: 1.1, margin: 0 }}>
           สวัสดี, {user?.display_name?.split(' ')[0] || '—'}
         </h1>
       </div>
@@ -192,8 +194,8 @@ export default function HomePage() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 12 }}>
           {[
             { to: '/courses',  Icon: IconClock,  label: 'Course Hours',    sub: `${totalRemaining.toFixed(1)} ชม.คงเหลือ` },
-            { to: '/lessons',  Icon: IconBook,   label: 'บันทึกการเรียน',  sub: 'ย้อนดูเนื้อหา' },
-            { to: '/progress', Icon: IconTrend,  label: 'Swing Progress',   sub: 'ดู Stats ของคุณ' },
+            { to: '/lessons',  Icon: IconBook,   label: 'Progress',         sub: 'ย้อนดูเนื้อหา' },
+            { to: '/progress', Icon: IconTrend,  label: 'Stats',            sub: 'ดู Stats ของคุณ' },
             { to: '/loyalty',  Icon: IconStar,   label: 'Loyalty & Points', sub: `${user?.points?.toLocaleString() || 0} pts` },
           ].map(({ to, Icon, label, sub }) => (
             <Link key={to} to={to} style={{ textDecoration: 'none' }}>

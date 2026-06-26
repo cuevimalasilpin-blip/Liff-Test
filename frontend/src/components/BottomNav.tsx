@@ -38,8 +38,8 @@ export default function BottomNav({ isCoach }: Props) {
 
   const navItems = [
     { to: '/',         Icon: IconHome,     label: 'HOME' },
-    { to: '/booking',  Icon: IconCalendar, label: 'BOOK' },
-    { to: '/lessons',  Icon: IconBook,     label: 'LOG' },
+    { to: '/booking',  Icon: IconCalendar, label: 'BOOKING' },
+    { to: '/lessons',  Icon: IconBook,     label: 'PROGRESS' },
     { to: '/progress', Icon: IconTrend,    label: 'STATS' },
     { to: '/loyalty',  Icon: IconStar,     label: 'LOYALTY' },
     ...(isCoach ? [{ to: '/admin', Icon: IconSettings, label: 'ADMIN' }] : []),
