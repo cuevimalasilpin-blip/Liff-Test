@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'IBM Plex Sans Thai', 'Archivo', sans-serif;
+  color: #141414;
+  background: #f7f6f4;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, .archivo { font-family: 'Archivo', sans-serif; }
+::selection { background: #ED1C24; color: #fff; }
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #ED1C24; color: #fff; font-weight: 700; font-size: 15px;
+  padding: 14px 28px; border-radius: 999px; border: none; cursor: pointer;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primary:hover { background: #c4171d; transform: translateY(-1px); }
+.btn-primary:active { transform: translateY(0); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #fff; color: #141414; font-weight: 600; font-size: 15px;
+  padding: 13px 26px; border-radius: 999px; border: 1.5px solid #e3e3e3;
+  cursor: pointer; font-family: 'IBM Plex Sans Thai', sans-serif;
+  transition: border-color 0.2s, transform 0.15s;
+}
+.btn-secondary:hover { border-color: #141414; transform: translateY(-1px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent; color: #ED1C24; font-weight: 600; font-size: 14px;
+  padding: 10px 20px; border-radius: 999px; border: 1.5px solid #ED1C24;
+  cursor: pointer; font-family: 'IBM Plex Sans Thai', sans-serif;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-ghost:hover { background: #ED1C24; color: #fff; }
+
+/* Cards */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-dark {
+  background: #161616;
+  border: 1px solid #2a2a2a;
+  border-radius: 16px;
+}
+
+/* Label above section */
+.section-label {
+  font-family: 'Archivo', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #ED1C24;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 32px;
+  height: 2px;
+  background: #ED1C24;
+  flex: none;
+}
+
+/* Page header */
+.page-header {
+  background: #fff;
+  border-bottom: 1px solid #ececec;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600;
+  font-family: 'Archivo', sans-serif;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-bronze { background: #fdf3e7; color: #a0540a; }
+.badge-silver { background: #f3f4f6; color: #4b5563; }
+.badge-gold { background: #fefce8; color: #92400e; }
+.badge-red { background: #fff0f0; color: #ED1C24; }
+
+/* Input */
+input, select, textarea {
+  font-family: 'IBM Plex Sans Thai', 'Archivo', sans-serif;
+  border: 1.5px solid #e3e3e3;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+  width: 100%;
+  color: #141414;
+  background: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #ED1C24;
+  box-shadow: 0 0 0 3px rgba(237,28,36,0.1);
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 6px;
+  background: #f0eeec;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #ED1C24;
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+/* Divider */
+.divider { border: none; border-top: 1px solid #ececec; margin: 0; }
+
+/* Spin animation */
+@keyframes spin { to { transform: rotate(360deg); } }
+.animate-spin { animation: spin 0.8s linear infinite; }
+
+/* Fade in */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.3s ease; }
