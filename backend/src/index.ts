@@ -10,6 +10,7 @@ import loyaltyRoutes from './routes/loyalty'
 import progressRoutes from './routes/progress'
 import adminRoutes from './routes/admin'
 import referralRoutes from './routes/referrals'
+import drillRoutes from './routes/drills'
 
 dotenv.config()
 
@@ -36,6 +37,7 @@ app.use('/api/loyalty', loyaltyRoutes)
 app.use('/api/progress', progressRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api/referrals', referralRoutes)
+app.use('/api/drills', drillRoutes)
 
 app.listen(PORT, () => {
   console.log(`🏌️ Underpar Club API running on port ${PORT}`)

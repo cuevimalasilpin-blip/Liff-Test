@@ -71,6 +71,41 @@ export const getAllAchievements = () =>
 export const getMyReferrals = () =>
   api.get('/api/referrals/mine').then(r => r.data)
 
+// ===== LESSONS — MEDIA & COMMENTS =====
+export const getLessonMediaUploadUrl = (lessonId: string, fileName: string, contentType: string) =>
+  api.post(`/api/lessons/${lessonId}/media/upload-url`, { fileName, contentType }).then(r => r.data)
+
+export const addLessonMediaUrl = (lessonId: string, publicUrl: string) =>
+  api.patch(`/api/lessons/${lessonId}/media`, { publicUrl }).then(r => r.data)
+
+export const getLessonComments = (lessonId: string) =>
+  api.get(`/api/lessons/${lessonId}/comments`).then(r => r.data)
+
+export const postLessonComment = (lessonId: string, message: string, mediaUrl?: string) =>
+  api.post(`/api/lessons/${lessonId}/comments`, { message, mediaUrl }).then(r => r.data)
+
+export const updateLesson = (id: string, data: Record<string, unknown>) =>
+  api.patch(`/api/lessons/${id}`, data).then(r => r.data)
+
+// ===== DRILLS =====
+export const getDrills = (category?: string, search?: string) =>
+  api.get('/api/drills', { params: { category, search } }).then(r => r.data)
+
+export const getDrillDetail = (id: string) =>
+  api.get(`/api/drills/${id}`).then(r => r.data)
+
+export const createDrill = (data: Record<string, unknown>) =>
+  api.post('/api/drills', data).then(r => r.data)
+
+export const updateDrill = (id: string, data: Record<string, unknown>) =>
+  api.patch(`/api/drills/${id}`, data).then(r => r.data)
+
+export const deleteDrill = (id: string) =>
+  api.delete(`/api/drills/${id}`).then(r => r.data)
+
+export const getDrillUploadUrl = (drillId: string, fileName: string, contentType: string) =>
+  api.post(`/api/drills/${drillId}/upload-url`, { fileName, contentType }).then(r => r.data)
+
 // ===== ADMIN =====
 export const getAdminDashboard = () =>
   api.get('/api/admin/dashboard').then(r => r.data)
@@ -80,5 +115,21 @@ export const getAllStudents = (search?: string, branch?: string) =>
 
 export const getRevenue = () =>
   api.get('/api/admin/revenue').then(r => r.data)
+
+// ===== ADMIN — SLOTS =====
+export const getAdminSlots = (date?: string, branch?: string) =>
+  api.get('/api/admin/slots', { params: { date, branch } }).then(r => r.data)
+
+export const createAdminSlot = (data: { branch: string; startTime: string; endTime: string; room?: string; notes?: string }) =>
+  api.post('/api/admin/slots', data).then(r => r.data)
+
+export const updateAdminSlot = (id: string, data: Record<string, unknown>) =>
+  api.patch(`/api/admin/slots/${id}`, data).then(r => r.data)
+
+export const deleteAdminSlot = (id: string) =>
+  api.delete(`/api/admin/slots/${id}`).then(r => r.data)
+
+export const createBulkSlots = (branch: string, slots: { startTime: string; endTime: string }[], room?: string) =>
+  api.post('/api/admin/slots/bulk', { branch, slots, room }).then(r => r.data)
 
 export default api

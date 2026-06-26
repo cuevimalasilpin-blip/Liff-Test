@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getMyCourses } from '../lib/api'
 import { format } from 'date-fns'
 import { th } from 'date-fns/locale'
 import PageHeader from '../components/PageHeader'
+import UpsellPopup from '../components/UpsellPopup'
 
 const IconClock = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -12,14 +14,26 @@ const IconClock = () => (
 
 export default function CoursesPage() {
   const { data, isLoading } = useQuery({ queryKey: ['courses'], queryFn: getMyCourses })
+  const [dismissedUpsell, setDismissedUpsell] = useState(false)
+
   const courses = data?.courses || []
   const active  = courses.filter((c: any) => c.is_active)
   const expired = courses.filter((c: any) => !c.is_active)
-
   const totalRemaining = active.reduce((s: number, c: any) => s + c.remaining_hours, 0)
+  // ใช้ lowestHours เป็น trigger สำหรับ upsell (course ที่ใกล้หมดที่สุด)
+  const lowestHours = active.length > 0 ? Math.min(...active.map((c: any) => c.remaining_hours)) : 0
+  const mainPackage = active.find((c: any) => c.remaining_hours === lowestHours)?.package_name
 
   return (
     <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
+      {/* Upsell popup เมื่อเหลือน้อยกว่า 2 ชม. */}
+      {!isLoading && !dismissedUpsell && (
+        <UpsellPopup
+          remainingHours={lowestHours}
+          packageName={mainPackage}
+          onDismiss={() => setDismissedUpsell(true)}
+        />
+      )}
       <PageHeader
         icon={<IconClock />}
         title="Course Hours"

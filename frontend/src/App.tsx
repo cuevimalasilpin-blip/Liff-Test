@@ -14,6 +14,7 @@ import ProgressPage from './pages/ProgressPage'
 import LoyaltyPage from './pages/LoyaltyPage'
 import ReferralPage from './pages/ReferralPage'
 import AdminPage from './pages/AdminPage'
+import DrillLibraryPage from './pages/DrillLibraryPage'
 
 const queryClient = new QueryClient()
 
@@ -33,6 +34,7 @@ function App() {
 
         const { user } = await login(uid, profile.displayName, profile.pictureUrl, referralCode)
         setIsCoach(user.is_coach)
+        localStorage.setItem('is_coach', String(user.is_coach))
         setReady(true)
       } catch (e: any) {
         setError(e?.message || JSON.stringify(e) || 'ไม่สามารถเชื่อมต่อได้ กรุณาลองใหม่')
@@ -72,6 +74,7 @@ function App() {
             <Route path="/progress" element={<ProgressPage />} />
             <Route path="/loyalty" element={<LoyaltyPage />} />
             <Route path="/referral" element={<ReferralPage />} />
+            <Route path="/drills" element={<DrillLibraryPage />} />
             {isCoach && <Route path="/admin" element={<AdminPage />} />}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

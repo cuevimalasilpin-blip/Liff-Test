@@ -140,6 +140,107 @@ router.patch('/:id', authenticate, requireCoach, async (req: AuthRequest, res: R
   return res.json({ lesson: data })
 })
 
+// POST /api/lessons/:id/media — upload media (signed upload URL)
+router.post('/:id/media/upload-url', authenticate, async (req: AuthRequest, res: Response) => {
+  const { fileName, contentType } = req.body
+  if (!fileName || !contentType) return res.status(400).json({ error: 'fileName and contentType required' })
+
+  const ext = fileName.split('.').pop()
+  const path = `lessons/${req.params.id}/${Date.now()}.${ext}`
+
+  const { data, error } = await supabase.storage
+    .from('lesson-media')
+    .createSignedUploadUrl(path)
+
+  if (error) return res.status(500).json({ error: error.message })
+  return res.json({ uploadUrl: data.signedUrl, path, token: data.token })
+})
+
+// PATCH /api/lessons/:id/media — เพิ่ม media_url เข้า lesson record
+router.patch('/:id/media', authenticate, async (req: AuthRequest, res: Response) => {
+  const { publicUrl } = req.body
+  if (!publicUrl) return res.status(400).json({ error: 'publicUrl required' })
+
+  // ดึง lesson เดิม
+  const { data: lesson, error: fetchErr } = await supabase
+    .from('lesson_records')
+    .select('media_urls, student_id, coach_id')
+    .eq('id', req.params.id)
+    .single()
+
+  if (fetchErr || !lesson) return res.status(404).json({ error: 'Lesson not found' })
+
+  // อนุญาตแค่ student เจ้าของ หรือ coach เจ้าของ
+  if (lesson.student_id !== req.userId && lesson.coach_id !== req.userId) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
+
+  const existing: string[] = lesson.media_urls || []
+  const updated = [...existing, publicUrl]
+
+  const { data, error } = await supabase
+    .from('lesson_records')
+    .update({ media_urls: updated, updated_at: new Date().toISOString() })
+    .eq('id', req.params.id)
+    .select()
+    .single()
+
+  if (error) return res.status(500).json({ error: error.message })
+  return res.json({ lesson: data })
+})
+
+// GET /api/lessons/:id/comments — ดึง comments
+router.get('/:id/comments', authenticate, async (req: AuthRequest, res: Response) => {
+  const { data, error } = await supabase
+    .from('lesson_comments')
+    .select('*, users!sender_id(display_name, picture_url, is_coach)')
+    .eq('lesson_record_id', req.params.id)
+    .order('created_at', { ascending: true })
+
+  if (error) return res.status(500).json({ error: error.message })
+  return res.json({ comments: data || [] })
+})
+
+// POST /api/lessons/:id/comments — ส่ง comment
+router.post('/:id/comments', authenticate, async (req: AuthRequest, res: Response) => {
+  const { message, mediaUrl } = req.body
+  if (!message?.trim() && !mediaUrl) return res.status(400).json({ error: 'message or mediaUrl required' })
+
+  // check access
+  const { data: lesson } = await supabase
+    .from('lesson_records')
+    .select('student_id, coach_id')
+    .eq('id', req.params.id)
+    .single()
+
+  if (!lesson) return res.status(404).json({ error: 'Lesson not found' })
+  if (lesson.student_id !== req.userId && lesson.coach_id !== req.userId) {
+    return res.status(403).json({ error: 'Forbidden' })
+  }
+
+  const { data: user } = await supabase
+    .from('users')
+    .select('is_coach, display_name')
+    .eq('id', req.userId!)
+    .single()
+
+  const { data, error } = await supabase
+    .from('lesson_comments')
+    .insert({
+      lesson_record_id: req.params.id,
+      sender_id: req.userId,
+      sender_role: user?.is_coach ? 'coach' : 'student',
+      sender_name: user?.display_name,
+      message: message?.trim() || '',
+      media_url: mediaUrl || null,
+    })
+    .select()
+    .single()
+
+  if (error) return res.status(500).json({ error: error.message })
+  return res.status(201).json({ comment: data })
+})
+
 // Helper: check and award achievements
 async function checkAndAwardAchievements(studentId: string, _newHours: number) {
   const { data: user } = await supabase
