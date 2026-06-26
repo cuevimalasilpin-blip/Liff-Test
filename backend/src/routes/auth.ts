@@ -42,7 +42,7 @@ router.post('/login', async (req: Request, res: Response) => {
     await supabase.from('referrals').insert({
       referrer_id: referredBy,
       referred_id: user.id,
-    }).onConflict('referred_id').ignore()
+    })
   }
 
   return res.json({ user })

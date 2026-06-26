@@ -81,10 +81,10 @@ router.post('/complete', authenticate, async (req: AuthRequest, res: Response) =
         .eq('code', ra.code)
         .single()
       if (ach) {
-        await supabase.from('user_achievements').insert({
+        await supabase.from('user_achievements').upsert({
           user_id: referral.referrer_id,
           achievement_id: ach.id,
-        }).onConflict('user_id, achievement_id').ignore()
+        }, { onConflict: 'user_id,achievement_id', ignoreDuplicates: true })
       }
     }
   }
