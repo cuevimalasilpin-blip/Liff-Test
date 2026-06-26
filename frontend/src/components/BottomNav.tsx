@@ -40,7 +40,7 @@ export default function BottomNav({ isCoach }: Props) {
     { to: '/',         Icon: IconHome,     label: 'HOME' },
     { to: '/booking',  Icon: IconCalendar, label: 'BOOK' },
     { to: '/lessons',  Icon: IconBook,     label: 'LOG' },
-    { to: '/progress', Icon: IconTrend,    label: 'PROGRESS' },
+    { to: '/progress', Icon: IconTrend,    label: 'STATS' },
     { to: '/loyalty',  Icon: IconStar,     label: 'LOYALTY' },
     ...(isCoach ? [{ to: '/admin', Icon: IconSettings, label: 'ADMIN' }] : []),
   ]

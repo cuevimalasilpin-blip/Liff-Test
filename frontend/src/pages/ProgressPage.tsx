@@ -34,7 +34,7 @@ export default function ProgressPage() {
     <div style={{ background: '#f0eeeb', minHeight: '100vh', paddingBottom: 90 }}>
       <PageHeader
         icon={<IconTrend />}
-        title="Swing Progress"
+        title="Stats"
         subtitle="ติดตามพัฒนาการ"
       />
 
