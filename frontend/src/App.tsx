@@ -52,11 +52,10 @@ function App() {
   )
 
   if (!ready) return (
-    <div className="flex h-screen items-center justify-center">
-      <div className="text-center">
-        <div className="w-12 h-12 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-        <p className="text-gray-500">กำลังโหลด...</p>
-      </div>
+    <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ width: '48px', height: '48px', border: '4px solid #ED1C24', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+      <p style={{ color: '#555', fontFamily: 'sans-serif' }}>กำลังโหลด...</p>
+      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
     </div>
   )
 

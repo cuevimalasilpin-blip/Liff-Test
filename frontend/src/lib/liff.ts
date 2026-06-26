@@ -6,6 +6,7 @@ export async function initLiff() {
   await liff.init({ liffId: LIFF_ID })
   if (!liff.isLoggedIn()) {
     liff.login()
+    return new Promise(() => {}) // หยุด execution ระหว่าง redirect
   }
 }
 
